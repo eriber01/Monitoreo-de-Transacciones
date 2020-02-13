@@ -35,6 +35,18 @@ body{
     
 }
 
+.container-option {
+    padding: 1em;
+}
+
+.container-option .option {
+    background-color: blue;
+    color: white;
+    width: 100%;
+    margin-top: 1em;
+    padding: 1em;
+}
+
 .form-header{
     background-color: #021e26;
     padding: 20px 0 40px;
@@ -123,6 +135,10 @@ input[type = 'password']{
     font-size: 14px;
     outline: none;
     font-family: 'ABeeZee', sans-serif;
+}
+
+.input-error {
+    border-bottom: 1px solid red !important;
 }
 
 .label{

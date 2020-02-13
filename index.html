@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +11,10 @@
     <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
-    
-    <div class="container">
+
+    <div class="container" id="app">
         <div class="form-header">
             <img src="img/logo.png" alt="Logo del banco">
             <h1>App <span>Banco</span></h1>
@@ -35,49 +37,41 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="submit" class="form-input" value="Iniciar Sesion" >
-                    <p>No tienes cuenta? <a class="atl-form" href="#">Registrate</a></p>
+                    <input type="submit" class="form-input" id="btn-submit" value="Iniciar Sesion">
+                    <!--<p>No tienes cuenta? <a class="atl-form" href="#">Registrate</a></p>-->
                 </div>
 
             </form>
 
         </div>
 
-
-        <div class="form-content">
-            <form action="#" class="cod-form">
-                <div class="form-title">
-                    <h3 class="sec-text">Registrate Gratis</h3>
-                </div>
-
-                <div class="input-group">
-                    <input type="email" class="form-input" name="form-input" id="reg-correo" autocomplete="off">
-                    <label class="label" for="reg-correo">Correo</label>
-                </div>
-
-                <div class="input-group">
-                    <input type="password" class="form-input" name="form-input" id="reg-password" autocomplete="off">
-                    <label class="label" for="reg-password">Contraseña</label class="label">
-                </div>
-
-                
-                <div class="input-group">
-                    <input type="password" class="form-input" name="form-input" id="reg-rep-password" autocomplete="off">
-                    <label class="label" for="reg-rep-password">Repetir Contraseña</label class="label">
-                </div>
-
-                <div class="input-group">
-                    <input type="submit" class="form-input" value="Registrarse" >
-                    <p>Tienes cuenta? <a class="atl-form" href="#">Iniciar Sesion</a></p>
-                </div>
-
-            </form>
-
+        <div class="form-content container-option">
+            <div class="form-title">
+                <h3 class="sec-text">Bienvenido nombreUsuario</h3>
+            </div>
+            <span><small>Elige que tipo de operacion desea hacer</small></span>
+            <div class="option">
+                <p>Chequear balance</p>
+            </div>
+            <div class="option">
+                <p>Pagar la Tarjeta</p>
+            </div>
+            <div class="option">
+                <p>Retirar Dinero</p>
+            </div>
+            <p><a class="atl-form" href="#">cerrar seccion</a></p>
         </div>
     </div>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/connnectFirebase.js"></script>
     <script src="js/form.js"></script>
 
 </body>
+
 </html>
