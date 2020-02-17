@@ -17,7 +17,7 @@ loginForm.forEach((input) => {
     });
 });
 
-//login 
+//login
 btnSubmit.addEventListener('click', (ev) => {
     ev.preventDefault();
 

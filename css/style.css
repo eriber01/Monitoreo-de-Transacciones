@@ -19,7 +19,8 @@ body{
 
 .container{
     background-color: white;
-    max-width: 350px;
+    width: 300px;
+    max-width: 450px;
     border-radius: 10px;
     overflow: hidden;
     transition: all 300ms ease-in;
@@ -33,18 +34,6 @@ body{
 
     background-color: rgb(238, 235, 235);
     
-}
-
-.container-option {
-    padding: 1em;
-}
-
-.container-option .option {
-    background-color: blue;
-    color: white;
-    width: 100%;
-    margin-top: 1em;
-    padding: 1em;
 }
 
 .form-header{
@@ -208,6 +197,7 @@ input[type = 'submit']:hover{
     text-decoration: underline;
 }
 
+
 .form-content{
     display: none;
 }
@@ -215,3 +205,51 @@ input[type = 'submit']:hover{
 .form-content:nth-child(2){
     display: block;
 }
+
+
+/*DISENO CONTAINER-OPTION 'OPCIONES' INICIO*/
+
+.container-option span small{
+    display: flex;
+    justify-content: center;
+}
+
+.container-option .option {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    list-style: none;
+    color: white;
+
+    margin: auto;
+    background-color: #0c7b93;
+    width: 90%;
+    margin-top: 1em;
+    margin-bottom: 1rem;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.container-option .option:hover{
+    background-color: #021e26;
+    transition: all 400ms ease;
+}
+
+.container-option .section-off{
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.container-option .section-off a{
+    text-decoration: none;
+    background-color: #021e26;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.container-option .section-off a:hover{
+    background-color: #0c7b93;
+}
+
+/*DISENO CONTAINER-OPTION 'OPCIONES' FIN*/
