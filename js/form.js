@@ -2,6 +2,21 @@
 const loginForm = document.getElementsByName('form-input');
 const btnSubmit = document.querySelector('#btn-submit');
 
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log(`user log in ${user.email}`)
+    } else {
+        console.log('log out');
+    }
+});
+
+const mostrarBalances = (data) => {
+    data.forEach((doc) => {
+        console.log(doc.data())
+    })
+}
+
 //validation form
 loginForm.forEach((input) => {
     input.addEventListener('blur', () => {
@@ -31,6 +46,13 @@ btnSubmit.addEventListener('click', (ev) => {
 
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
+            /**
+             * esto obtiene el balance individual de cada usuario
+             */
+            db.collection('balances').doc(cred.user.uid).get().then((doc) => {
+                console.log(doc.data())
+            })
+        }).then(() => {
             document.querySelector('.cod-form').reset();
             $('.form-content').animate({
                 height: "toggle",
