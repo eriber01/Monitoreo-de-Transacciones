@@ -76,12 +76,11 @@ btnSubmit.addEventListener('click', (ev) => {
                 document.getElementById('ver-blc').addEventListener('click', function verBalance() {
                     let balance = doc.data();
                     console.log(Object.values(balance));
-                    innerBalance = `Su balance a la Fecha es: ${balance.balance} pesos`;
+                   let innerBalance = `Su balance a la Fecha es: ${balance.balance} pesos`;
                     document.getElementById('balance').innerHTML = innerBalance;
 
-                    $('#balance').animate({
-                        height: "toggle"
-                    }, 600);
+                    $("#balance").slideToggle();
+
                 });
                 /*fin agregar balance a html*/
             })

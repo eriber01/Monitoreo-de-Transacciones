@@ -260,8 +260,8 @@ input[type = 'submit']:hover{
     text-align: center;
     width: 70%;
     margin: auto;
-    height: 100%;
-    transition: all 900ms ease;
+    height: 100%;/* 
+    transition: all 900ms ease; */
 }
 
 /*DISENO CONTAINER-OPTION 'OPCIONES' FIN*/
