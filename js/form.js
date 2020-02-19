@@ -51,6 +51,20 @@ btnSubmit.addEventListener('click', (ev) => {
              */
             db.collection('balances').doc(cred.user.uid).get().then((doc) => {
                 console.log(doc.data())
+
+                /*agregar el balance a html*/
+
+                document.getElementById('ver-blc').addEventListener('click', function verBalance(){
+                    let balance = doc.data();
+                    console.log(Object.values(balance));
+                    innerBalance = `Su balance a la Fecha es: ${Object.values(balance)} pesos`;
+                    document.getElementById('balance').innerHTML = innerBalance;
+                    
+                    $('#balance').animate({
+                        height: "toggle",
+                    });
+                });
+                /*fin agregar balance a html*/
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();

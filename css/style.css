@@ -252,4 +252,19 @@ input[type = 'submit']:hover{
     background-color: #0c7b93;
 }
 
+
+/*agregar diceno ver balance*/
+
+#balance{
+    background-color: white;
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    height: 100%;
+    transition: all 900ms ease;
+}
+
 /*DISENO CONTAINER-OPTION 'OPCIONES' FIN*/
+
+
+
