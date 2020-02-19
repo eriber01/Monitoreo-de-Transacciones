@@ -61,8 +61,8 @@ btnSubmit.addEventListener('click', (ev) => {
                     document.getElementById('balance').innerHTML = innerBalance;
                     
                     $('#balance').animate({
-                        height: "toggle",
-                    });
+                        height: "toggle"
+                    }, 600);
                 });
                 /*fin agregar balance a html*/
             })
