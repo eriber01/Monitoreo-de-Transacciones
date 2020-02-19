@@ -69,14 +69,14 @@ btnSubmit.addEventListener('click', (ev) => {
              * esto obtiene el balance individual de cada usuario
              */
             db.collection('balances').doc(cred.user.uid).get().then((doc) => {
-                console.log(doc.data())
+                console.log(doc.data().balance)
 
                 /*agregar el balance a html*/
 
                 document.getElementById('ver-blc').addEventListener('click', function verBalance() {
                     let balance = doc.data();
                     console.log(Object.values(balance));
-                    innerBalance = `Su balance a la Fecha es: ${Object.values(balance)} pesos`;
+                    innerBalance = `Su balance a la Fecha es: ${balance.balance} pesos`;
                     document.getElementById('balance').innerHTML = innerBalance;
 
                     $('#balance').animate({
