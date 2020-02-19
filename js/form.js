@@ -44,6 +44,7 @@ btnSubmit.addEventListener('click', (ev) => {
         loginForm[0].classList.add('input-error');
         loginForm[1].classList.add('input-error');
 
+        
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
             /**
