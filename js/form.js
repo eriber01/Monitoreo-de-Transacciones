@@ -1,7 +1,7 @@
 
 const loginForm = document.getElementsByName('form-input');
 const btnSubmit = document.querySelector('#btn-submit');
-
+let userId;
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -11,26 +11,42 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-const mostrarBalances = (data) => {
-    data.forEach((doc) => {
-        console.log(doc.data())
-    })
+const formValidation = (form) => {
+    form.forEach((input) => {
+        input.addEventListener('blur', () => {
+            if (input.value.length >= 1) {
+                input.nextElementSibling.classList.add('active');
+                input.nextElementSibling.classList.remove('error');
+            } else if (input.value.length = " ") {
+                input.nextElementSibling.classList.remove('active');
+                input.nextElementSibling.classList.add('error')
+            } else {
+                input.nextElementSibling.classList.remove('active')
+            }
+        });
+    });
 }
 
-//validation form
-loginForm.forEach((input) => {
-    input.addEventListener('blur', () => {
-        if (input.value.length >= 1) {
-            input.nextElementSibling.classList.add('active');
-            input.nextElementSibling.classList.remove('error');
-        } else if (input.value.length = " ") {
-            input.nextElementSibling.classList.remove('active');
-            input.nextElementSibling.classList.add('error')
-        } else {
-            input.nextElementSibling.classList.remove('active')
-        }
-    });
-});
+formValidation(loginForm);
+
+const updateMenu = () => {
+    $('.form-content').animate({
+        height: "toggle",
+        opacity: "toggle"
+    }, 600);
+}
+
+//handle error auth firebase
+handleErrorAuth = (error) => {
+    if (error.code == "auth/user-not-found") {
+        loginForm[0].classList.add('input-error');
+        loginForm[1].classList.add('input-error');
+
+    } else if (error.code == "auth/wrong-password") {
+        loginForm[0].classList.remove('input-error');
+        loginForm[1].classList.add('input-error');
+    }
+}
 
 //login
 btnSubmit.addEventListener('click', (ev) => {
@@ -46,39 +62,29 @@ btnSubmit.addEventListener('click', (ev) => {
 
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
-            /**
-             * esto obtiene el balance individual de cada usuario
-             */
-            db.collection('balances').doc(cred.user.uid).get().then((doc) => {
-                console.log(doc.data())
-            })
+            userId = cred.user.uid;
         }).then(() => {
             document.querySelector('.cod-form').reset();
-            $('.form-content').animate({
-                height: "toggle",
-                opacity: "toggle"
-            }, 600);
+            updateMenu();
         })
-            .catch((err) => {
-                if (err.code == "auth/user-not-found") {
-                    loginForm[0].classList.add('input-error');
-                    loginForm[1].classList.add('input-error');
-
-                } else if (err.code == "auth/wrong-password") {
-                    loginForm[0].classList.remove('input-error');
-                    loginForm[1].classList.add('input-error');
-                }
-            });
+            .catch((err) => handleErrorAuth(error));
     }
 });
+
 
 //logaut
 document.querySelector('.atl-form').addEventListener('click', (ev) => {
     ev.preventDefault();
     auth.signOut().then(() => {
-        $('.form-content').animate({
-            height: "toggle",
-            opacity: "toggle"
-        }, 600);
+        updateMenu();
     });
+});
+
+//chequer balance
+const btnCheckBalance = document.querySelectorAll('.option-list .option')[0];
+btnCheckBalance.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    db.collection('balances').doc(userId).get().then((doc) => {
+        console.log(`tu balance es: ${doc.data()}`)
+    })
 });
