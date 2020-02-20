@@ -62,6 +62,8 @@ btnSubmit.addEventListener('click', (ev) => {
 
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
+            //no tocar es importante
+            userId = cred.user.uid;
             /**
              * esto obtiene el balance individual de cada usuario
              */
