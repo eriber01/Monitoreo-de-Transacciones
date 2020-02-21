@@ -60,6 +60,7 @@ btnSubmit.addEventListener('click', (ev) => {
         loginForm[0].classList.add('input-error');
         loginForm[1].classList.add('input-error');
 
+
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
             //no tocar es importante
@@ -73,14 +74,13 @@ btnSubmit.addEventListener('click', (ev) => {
                 /*agregar el balance a html*/
 
                 document.getElementById('ver-blc').addEventListener('click', function verBalance() {
-                    let balance = doc.data();
-                    console.log(Object.values(balance));
-                    innerBalance = `Su balance a la Fecha es: ${Object.values(balance)} pesos`;
+
+                    let bal = doc.data();
+                    console.log(Object.values(bal));
+                    innerBalance = `Su balance a la Fecha es: ${bal.balance} pesos`;
                     document.getElementById('balance').innerHTML = innerBalance;
 
-                    $('#balance').animate({
-                        height: "toggle"
-                    }, 600);
+                    $("#balance").slideToggle();
                 });
                 /*fin agregar balance a html*/
             })
@@ -99,6 +99,7 @@ document.querySelector('.atl-form').addEventListener('click', (ev) => {
     auth.signOut().then(() => {
         updateMenu();
     });
+    window.location.reload();
 });
 
 //chequer balance
