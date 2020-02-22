@@ -114,7 +114,7 @@ body{
     margin-bottom: 40px;
 }
 
-input[type = 'text'],
+input , #correo/* [type = 'text'] */,
 input[type = 'password']{
     border: none;
     border-bottom: 1px solid #021e26;
@@ -237,9 +237,13 @@ input[type = 'submit']:hover{
 
 .container-option .section-off{
     padding-bottom: 1rem;
+    /* padding-top: 10px; */
     text-align: center;
 }
 
+.container-option .section-off{
+    margin-top: 10px;
+}
 .container-option .section-off a{
     text-decoration: none;
     background-color: #021e26;
@@ -255,15 +259,52 @@ input[type = 'submit']:hover{
 
 /*agregar diceno ver balance*/
 
+
+
 #balance{
-    background-color: white;
+    background-color: #021e26;
     text-align: center;
     width: 70%;
     margin: auto;
-    height: 100%;/* 
-    transition: all 900ms ease; */
+    height: 100%;
+    border-radius: 5px;
+    color: white;
+
+    /*esto hace que no se abra y se cierre el div con el balance NO TOCAR*/
+    display: none;
+    /*esto hace que no se abra y se cierre el div con el balance NO TOCAR*/
 }
 
+    /*agregar diseño a los input de retiro y deposito*/
+
+#depositar , #retirar{
+    width: 100%;
+    padding: 10px 40px 5px;
+    height: 100%;
+    display: none;
+}
+.form-deposito-retiro{
+    text-align: center;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #0c7b93;
+    width: 100%;
+    
+}
+
+#depositar #submit-deposito, #retirar #submit-retiro{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: 5px;
+    background-color: #0c7b93;
+}
+
+#depositar #submit-deposito:hover, #retirar #submit-retiro:hover{
+    background-color: #021e26;
+    cursor: pointer;
+}
 /*DISENO CONTAINER-OPTION 'OPCIONES' FIN*/
 
 
