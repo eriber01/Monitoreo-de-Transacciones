@@ -111,7 +111,7 @@ btnSubmit.addEventListener('click', (ev) => {
                         console.log('Debe introducir un valor por favor');
                     }else{
                         console.log(typeof(dataDeposito));
-                        console.log(`el monto de retiro es ${dataDeposito}`);
+                        console.log(`el monto de deposito es ${dataDeposito}`);
                     }
 
                 })
