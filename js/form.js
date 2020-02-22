@@ -77,12 +77,79 @@ btnSubmit.addEventListener('click', (ev) => {
 
                     let bal = doc.data();
                     console.log(Object.values(bal));
-                    innerBalance = `Su balance a la Fecha es: ${bal.balance} pesos`;
+                    innerBalance = `\n Su balance a la Fecha es: ${bal.balance} pesos \n`;
                     document.getElementById('balance').innerHTML = innerBalance;
-
+                    document.getElementById('balance').style.padding = '10px';
+                    
                     $("#balance").slideToggle();
+
+                    //Ocultar los demas DIV
+                    document.getElementById('retirar').style.display = 'none';
+                    document.getElementById('depositar').style.display = 'none';
                 });
                 /*fin agregar balance a html*/
+                
+
+                /**datos al DOM de Depositar*/
+                                
+                document.getElementById('depositar-click').addEventListener('click', function input_deposito(){
+                    console.log('depositar');
+                    $('#depositar').slideToggle();
+                    document.getElementById('balance').style.display = 'none';
+                    document.getElementById('retirar').style.display = 'none'
+                });
+
+
+
+                
+                //tomar datos del input al hacer click
+                document.getElementById("submit-deposito").addEventListener('click', function(){
+                    
+
+                    let dataDeposito = document.getElementById('input-deposito').value;
+                    
+                    if(dataDeposito == "" ||  dataDeposito == " "){
+                        console.log('Debe introducir un valor por favor');
+                    }else{
+                        console.log(typeof(dataDeposito));
+                        console.log(`el monto de retiro es ${dataDeposito}`);
+                    }
+
+                })
+
+
+                /**datos al DOM de retirar*/
+                document.getElementById('retirar-click').addEventListener('click', function input_retiro(){
+                
+                    console.log('retiraar');
+                    $('#retirar').slideToggle();
+                    document.getElementById('balance').style.display = 'none';
+                    document.getElementById('depositar').style.display = 'none';
+                });
+    
+                //tomar datos del input al hacer click
+                
+                document.getElementById("submit-retiro").addEventListener('click', function(){
+                    
+                    let balRetiro = doc.data();
+                    let dataRetiro = document.getElementById('input-retiro').value;
+                    console.log(balRetiro);
+
+                    if (dataRetiro > balRetiro.balance) {
+                            console.log(' No posee suficiente Balance para realizar transaccion')                        
+                    }else{
+                        if(dataRetiro == "" ||  dataRetiro == " "){
+                            console.log('Debe introducir un valor por favor');
+                        }else{
+                            console.log(typeof(dataRetiro));
+                            console.log(`el monto de retiro es ${dataRetiro}`);
+                            console.log(`el monto restante es ${balRetiro.balance - dataRetiro}`)
+                        }
+                    }
+
+                })
+
+
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();

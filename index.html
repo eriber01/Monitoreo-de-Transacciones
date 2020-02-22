@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" class="form-input" name="form-input" id="correo" autocomplete="off">
+                    <input type="text" class="form-input m" name="form-input" id="correo" autocomplete="off">
                     <label class="label" for="correo">Usuario</label>
                 </div>
 
@@ -57,8 +57,18 @@
 
                 <a href="#" class="option" id="ver-blc"> Ver Balance </a>
                 <div id="balance"></div>
-                <a href="#" class="option">Depositar</a>
-                <a href="#" class="option">Retirar</a>
+                
+                <a href="#" id="depositar-click" class="option">Depositar</a>
+                <div id="depositar">
+                    <input class="form-deposito-retiro" id="input-deposito" type="text" placeholder="Ingrese la cantidad a Depsitar">
+                    <input id="submit-deposito" type="submit" value="Depositar"> 
+                </div>
+                
+                <a href="#" id="retirar-click" class="option">Retirar</a>
+                <div id="retirar">
+                    <input class="form-deposito-retiro" id="input-retiro" type="text" placeholder="Ingrese la cantidad a Retirar">
+                    <input id="submit-retiro" type="submit" value="Retirar">
+                </div>
             </div>
 
             <div class="section-off">
