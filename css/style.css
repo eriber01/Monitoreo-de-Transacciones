@@ -162,7 +162,7 @@ input[type = 'password']{
 
 /*se agrego por JS*/
 
-input[type = 'submit']{
+input[type = 'submit'], .input-group a{
     background: none;
     border: none;
     background: #0c7b93;
@@ -174,9 +174,16 @@ input[type = 'submit']{
     margin-bottom: 16px;
     font-family: 'ABeeZee', sans-serif;
     transition: all 500ms ease;
+    cursor: pointer;
 }
 
-input[type = 'submit']:hover{
+.input-group a{
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+input[type = 'submit'] , .input-group a:hover{
     background: #021e26;
 }
 

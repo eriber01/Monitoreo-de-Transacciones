@@ -64,20 +64,34 @@ const showBalance = ({ balance }) => {
 }
 
 
+
 //login
 btnSubmit.addEventListener('click', (ev) => {
-    ev.preventDefault();
+    /* ev.preventDefault(); */
+    
+   let userAdmin = document.getElementById('correo').value;
 
     let user = loginForm[0].value;
     let password = loginForm[1].value;
     let email = `${user}@ab.com`;
-
+    
     if (user === '' && password === '') {
         loginForm[0].classList.add('input-error');
         loginForm[1].classList.add('input-error');
 
 
-    } else {
+    }else if (userAdmin == 'admin') {
+        
+        const reDireccionar = document.querySelector('#btn-submit');
+        reDireccionar.setAttribute('href', '../master.html');
+        reDireccionar.getAttribute('href');
+        console.log(reDireccionar)
+
+        console.log('funiona')
+    }
+    
+    else {
+
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
             //este es el id del usuario
             userId = cred.user.uid;
@@ -119,7 +133,7 @@ btnSubmit.addEventListener('click', (ev) => {
 
                         let balanceActual = doc.data().balance + Number(dataDeposito);
 
-                        db.collection("balances").doc(userId).update({
+                        db.collection('balances').doc(userId).update({
                             balance: balanceActual
                         })
                     }
@@ -154,9 +168,8 @@ btnSubmit.addEventListener('click', (ev) => {
                             console.log(`el monto de retiro es ${dataRetiro}`);
                             let balanceActual = balRetiro.balance - Number(dataRetiro);
 
-                            db.collection("balances").doc(userId).update({
+                            db.collection('balances').doc(userId).update({
                                 balance: balanceActual
-
                             })
                         }
                     
@@ -167,6 +180,7 @@ btnSubmit.addEventListener('click', (ev) => {
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();
+            
             updateMenu();
         })
             .catch((err) => handleErrorAuth(error));
@@ -177,8 +191,10 @@ btnSubmit.addEventListener('click', (ev) => {
 //logaut
 document.querySelector('.atl-form').addEventListener('click', (ev) => {
     ev.preventDefault();
+
     auth.signOut().then(() => {
         updateMenu();
+   
     });
-    window.location.reload();
+   window.location.reload();
 });

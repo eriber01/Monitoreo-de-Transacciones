@@ -58,9 +58,14 @@ nav a:nth-child(3):hover{
 }
 /*Diseño Header FIN*/
 
+/*diseno card inicio*/
 
+.container{
+    width: 250px;
+    text-align: center;
+}
 
-
+/*diseno card fin*/
 
 
 
