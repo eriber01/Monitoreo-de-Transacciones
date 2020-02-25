@@ -129,7 +129,7 @@ btnSubmit.addEventListener('click', (ev) => {
 
                     } else {
                         console.log(typeof (dataDeposito));
-                        console.log(`el monto de deposito es ${dataDeposito}`);
+                        console.log(`el monto de retiro es ${dataDeposito}`);
 
                         let balanceActual = doc.data().balance + Number(dataDeposito);
 
