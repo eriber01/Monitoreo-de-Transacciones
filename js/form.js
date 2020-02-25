@@ -3,6 +3,8 @@ const loginForm = document.getElementsByName('form-input');
 const btnSubmit = document.querySelector('#btn-submit');
 let userId;
 
+
+//verificamos si el usuario se logueo 
 auth.onAuthStateChanged(user => {
     if (user) {
         console.log(`user log in ${user.email}`)
@@ -48,6 +50,20 @@ handleErrorAuth = (error) => {
     }
 }
 
+const showBalance = ({ balance }) => {
+    console.log(balance);
+    innerBalance = `\n Su balance a la Fecha es: ${balance} pesos \n`;
+    document.getElementById('balance').innerHTML = innerBalance;
+    document.getElementById('balance').style.padding = '10px';
+
+    $("#balance").slideToggle();
+
+    //Ocultar los demas DIV
+    document.getElementById('retirar').style.display = 'none';
+    document.getElementById('depositar').style.display = 'none';
+}
+
+
 //login
 btnSubmit.addEventListener('click', (ev) => {
     ev.preventDefault();
@@ -63,87 +79,83 @@ btnSubmit.addEventListener('click', (ev) => {
 
     } else {
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
-            //no tocar es importante
+            //este es el id del usuario
             userId = cred.user.uid;
-            /**
-             * esto obtiene el balance individual de cada usuario
-             */
-            db.collection('balances').doc(cred.user.uid).get().then((doc) => {
-                console.log(doc.data())
+
+            //esto obtiene el balance individual de cada usuario
+            db.collection('balances').doc(userId).onSnapshot((doc) => {
 
                 /*agregar el balance a html*/
-
-                document.getElementById('ver-blc').addEventListener('click', function verBalance() {
-
-                    let bal = doc.data();
-                    console.log(Object.values(bal));
-                    innerBalance = `\n Su balance a la Fecha es: ${bal.balance} pesos \n`;
-                    document.getElementById('balance').innerHTML = innerBalance;
-                    document.getElementById('balance').style.padding = '10px';
-                    
-                    $("#balance").slideToggle();
-
-                    //Ocultar los demas DIV
-                    document.getElementById('retirar').style.display = 'none';
-                    document.getElementById('depositar').style.display = 'none';
+                document.getElementById('ver-blc').addEventListener('click', () => {
+                    showBalance(doc.data());
                 });
                 /*fin agregar balance a html*/
-                
+
 
                 /**datos al DOM de Depositar*/
-                                
-                document.getElementById('depositar-click').addEventListener('click', function input_deposito(){
+
+                document.getElementById('depositar-click').addEventListener('click', function input_deposito() {
                     console.log('depositar');
                     $('#depositar').slideToggle();
                     document.getElementById('balance').style.display = 'none';
-                    document.getElementById('retirar').style.display = 'none'
+                    document.getElementById('retirar').style.display = 'none';
                 });
 
 
 
-                
+
                 //tomar datos del input al hacer click
-                document.getElementById("submit-deposito").addEventListener('click', function(){
-                    
+                document.getElementById("submit-deposito").addEventListener('click', function () {
+
 
                     let dataDeposito = document.getElementById('input-deposito').value;
-                    
-                    if(dataDeposito == "" ||  dataDeposito == " "){
+
+                    if (dataDeposito == "" || dataDeposito == " ") {
                         console.log('Debe introducir un valor por favor');
-                    }else{
-                        console.log(typeof(dataDeposito));
+                    } else {
+                        console.log(typeof (dataDeposito));
                         console.log(`el monto de retiro es ${dataDeposito}`);
+
+                        let balanceActual = doc.data().balance + Number(dataDeposito);
+
+                        db.collection('balances').doc(userId).update({
+                            balance: balanceActual
+                        })
                     }
 
                 })
 
 
                 /**datos al DOM de retirar*/
-                document.getElementById('retirar-click').addEventListener('click', function input_retiro(){
-                
+                document.getElementById('retirar-click').addEventListener('click', function input_retiro() {
+
                     console.log('retiraar');
                     $('#retirar').slideToggle();
                     document.getElementById('balance').style.display = 'none';
                     document.getElementById('depositar').style.display = 'none';
                 });
-    
+
                 //tomar datos del input al hacer click
-                
-                document.getElementById("submit-retiro").addEventListener('click', function(){
-                    
+
+                document.getElementById("submit-retiro").addEventListener('click', function () {
+
                     let balRetiro = doc.data();
                     let dataRetiro = document.getElementById('input-retiro').value;
                     console.log(balRetiro);
 
                     if (dataRetiro > balRetiro.balance) {
-                            console.log(' No posee suficiente Balance para realizar transaccion')                        
-                    }else{
-                        if(dataRetiro == "" ||  dataRetiro == " "){
+                        console.log(' No posee suficiente Balance para realizar transaccion')
+                    } else {
+                        if (dataRetiro == "" || dataRetiro == " ") {
                             console.log('Debe introducir un valor por favor');
-                        }else{
-                            console.log(typeof(dataRetiro));
+                        } else {
+                            console.log(typeof (dataRetiro));
                             console.log(`el monto de retiro es ${dataRetiro}`);
-                            console.log(`el monto restante es ${balRetiro.balance - dataRetiro}`)
+                            let balanceActual = balRetiro.balance - dataRetiro;
+
+                            db.collection('balances').doc(userId).update({
+                                balance: balanceActual
+                            })
                         }
                     }
 
@@ -167,13 +179,4 @@ document.querySelector('.atl-form').addEventListener('click', (ev) => {
         updateMenu();
     });
     window.location.reload();
-});
-
-//chequer balance
-const btnCheckBalance = document.querySelectorAll('.option-list .option')[0];
-btnCheckBalance.addEventListener('click', (ev) => {
-    ev.preventDefault();
-    db.collection('balances').doc(userId).get().then((doc) => {
-        console.log(`tu balance es: ${doc.data()}`)
-    })
 });
