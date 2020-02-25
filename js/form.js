@@ -50,9 +50,9 @@ handleErrorAuth = (error) => {
     }
 }
 
-const showBalance = ({ balance }) => {
-    console.log(balance);
-    innerBalance = `\n Su balance a la Fecha es: ${balance} pesos \n`;
+const showBalance = (bal) => {
+    console.log(bal);
+    innerBalance = `\n Su balance a la Fecha es: ${bal} pesos \n`;
     document.getElementById('balance').innerHTML = innerBalance;
     document.getElementById('balance').style.padding = '10px';
 
@@ -87,7 +87,7 @@ btnSubmit.addEventListener('click', (ev) => {
 
                 /*agregar el balance a html*/
                 document.getElementById('ver-blc').addEventListener('click', () => {
-                    showBalance(doc.data());
+                    showBalance(doc.data().balance);
                 });
                 /*fin agregar balance a html*/
 
@@ -115,11 +115,11 @@ btnSubmit.addEventListener('click', (ev) => {
 
                     } else {
                         console.log(typeof (dataDeposito));
-                        console.log(`el monto a depositar es ${dataDeposito}`);
+                        console.log(`el monto de retiro es ${dataDeposito}`);
 
                         let balanceActual = doc.data().balance + Number(dataDeposito);
 
-                        db.collection("balances").doc(userId).update({
+                        db.collection('balances').doc(userId).update({
                             balance: balanceActual
                         })
                     }
@@ -128,7 +128,7 @@ btnSubmit.addEventListener('click', (ev) => {
 
 
                 /**datos al DOM de retirar*/
-                document.getElementById('retirar-click').addEventListener('click', function() {
+                document.getElementById('retirar-click').addEventListener('click', function input_retiro() {
 
                     console.log('retiraar');
                     $('#retirar').slideToggle();
@@ -138,7 +138,7 @@ btnSubmit.addEventListener('click', (ev) => {
 
                 //tomar datos del input al hacer click
 
-                document.getElementById("submit-retiro").addEventListener('click', function(){
+                document.getElementById("submit-retiro").addEventListener('click', function () {
 
                     let balRetiro = doc.data();
                     let dataRetiro = document.getElementById('input-retiro').value;
@@ -146,20 +146,19 @@ btnSubmit.addEventListener('click', (ev) => {
 
                     if (dataRetiro > balRetiro.balance) {
                         console.log(' No posee suficiente Balance para realizar transaccion')
-                    } else if (dataRetiro == "" || dataRetiro == " ") {
-                      
+                    } else {
+                        if (dataRetiro == "" || dataRetiro == " ") {
                             console.log('Debe introducir un valor por favor');
                         } else {
                             console.log(typeof (dataRetiro));
                             console.log(`el monto de retiro es ${dataRetiro}`);
-                            let balanceActual = balRetiro.balance - Number(dataRetiro);
+                            let balanceActual = balRetiro.balance - dataRetiro;
 
-                            db.collection("balances").doc(userId).update({
+                            db.collection('balances').doc(userId).update({
                                 balance: balanceActual
-
                             })
                         }
-                    
+                    }
 
                 })
 
