@@ -1,18 +1,77 @@
 
+/**
+ * global variables
+ */
+
 const loginForm = document.getElementsByName('form-input');
 const btnSubmit = document.querySelector('#btn-submit');
-let userId;
+let userId = undefined;
 let globalDoc = undefined;
 
 
-//verificamos si el usuario se logueo 
-auth.onAuthStateChanged(user => {
-    if (user) {
-        console.log(`user log in ${user.email}`)
-    } else {
-        console.log('log out');
+//verify if user log in
+const verifyAuth = () => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            console.log(`user log in ${user.email}`)
+        } else {
+            console.log('log out');
+        }
+    });
+}
+
+//handle error auth firebase
+handleErrorAuth = (error) => {
+    if (error.code == "auth/user-not-found") {
+        loginForm[0].classList.add('input-error');
+        loginForm[1].classList.add('input-error');
+
+    } else if (error.code == "auth/wrong-password") {
+        loginForm[0].classList.remove('input-error');
+        loginForm[1].classList.add('input-error');
     }
-});
+}
+
+
+const showBalance = (balance) => {
+    console.log(balance);
+    innerBalance = `\n Su balance a la Fecha es: ${balance} pesos \n`;
+    document.getElementById('balance').innerHTML = innerBalance;
+    document.getElementById('balance').style.padding = '10px';
+    toggleSlide("balance");
+}
+
+const deposit = (balance, updateBalance) => {
+    if (updateBalance == "" || updateBalance == " ") {
+        console.log('Debe introducir un valor por favor');
+
+    } else {
+
+        let newBalance = balance + Number(updateBalance);
+
+        db.collection('balances').doc(userId).update({
+            balance: newBalance
+        })
+    }
+}
+
+const withDraw = (balance, updateBalance) => {
+    if (updateBalance >= balance) {
+        console.log(' No posee suficiente Balance para realizar transaccion')
+    } else {
+        if (updateBalance == "" || updateBalance == " ") {
+            console.log('Debe introducir un valor por favor');
+
+        } else {
+
+            let newBalance = balance - updateBalance;
+
+            db.collection('balances').doc(userId).update({
+                balance: newBalance
+            })
+        }
+    }
+}
 
 const formValidation = (form) => {
     form.forEach((input) => {
@@ -30,8 +89,6 @@ const formValidation = (form) => {
     });
 }
 
-formValidation(loginForm);
-
 const updateMenu = () => {
     $('.form-content').animate({
         height: "toggle",
@@ -39,35 +96,9 @@ const updateMenu = () => {
     }, 600);
 }
 
-//handle error auth firebase
-handleErrorAuth = (error) => {
-    if (error.code == "auth/user-not-found") {
-        loginForm[0].classList.add('input-error');
-        loginForm[1].classList.add('input-error');
-
-    } else if (error.code == "auth/wrong-password") {
-        loginForm[0].classList.remove('input-error');
-        loginForm[1].classList.add('input-error');
-    }
-}
-
-const depositarDinero = (balanceActual) => {
-    db.collection('balances').doc(userId).update({
-        balance: balanceActual
-    })
-}
-
-const showBalance = (bal) => {
-    console.log(bal);
-    innerBalance = `\n Su balance a la Fecha es: ${bal} pesos \n`;
-    document.getElementById('balance').innerHTML = innerBalance;
-    document.getElementById('balance').style.padding = '10px';
-    toggleSlide("balance");
-}
-
-function toggleSlide(id){
+const toggleSlide = (id) => {
     // map selector with id
-    let selector = "#"+id;
+    let selector = `#${id}`;
     // class to add when the slide is toggled
     let className = "openned";
 
@@ -103,11 +134,19 @@ function toggleSlide(id){
     }
 }
 
+formValidation(loginForm);
 
+/**
+ * events
+ */
 
-//login
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('loading');
+    verifyAuth();
+});
+
 btnSubmit.addEventListener('click', (ev) => {
-    /* ev.preventDefault(); */
+    ev.preventDefault();
     
    let userAdmin = document.getElementById('correo').value;
 
@@ -127,7 +166,7 @@ btnSubmit.addEventListener('click', (ev) => {
         reDireccionar.getAttribute('href');
         console.log(reDireccionar)
 
-        console.log('funiona')
+        console.log('funciona')
     }
     
     else {
@@ -136,12 +175,9 @@ btnSubmit.addEventListener('click', (ev) => {
             //este es el id del usuario
             userId = cred.user.uid;
 
-            //esto obtiene el balance individual de cada usuario
+            //esto obtiene el balance
             db.collection('balances').doc(userId).onSnapshot((doc) => {
                 globalDoc = doc;
-                /*agregar el balance a html*/
-                /*fin agregar balance a html*/
-                /**datos al DOM de Depositar*/
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();
@@ -151,71 +187,37 @@ btnSubmit.addEventListener('click', (ev) => {
             .catch((err) => handleErrorAuth(error));
     }
 });
-document.getElementById('ver-blc').addEventListener('click', () => {
-    showBalance(globalDoc.data().balance);
+
+
+document.getElementById('retirar-click').addEventListener('click', () => {
+    toggleSlide("retirar");
 });
-document.getElementById('depositar-click').addEventListener('click', function input_deposito() {
-    console.log('depositar');
+
+document.getElementById('depositar-click').addEventListener('click',() => {
     toggleSlide("depositar");
-    // document.getElementById('balance').style.display = 'none';
-    // document.getElementById('retirar').style.display = 'none';
 });
 
 
-//tomar datos del input al hacer click
-document.getElementById("submit-deposito").addEventListener('click', function (ev) {
-    let dataDeposito = document.getElementById('input-deposito').value;
+document.getElementById('ver-blc').addEventListener('click', () => {
+    let { balance } = globalDoc.data();
 
-    if (dataDeposito == "" || dataDeposito == " ") {
-        console.log('Debe introducir un valor por favor');
+    showBalance(balance);
+});
 
-    } else {
-        // console.log(typeof (dataDeposito));
-        // console.log(`el monto de deposito es ${dataDeposito}`);
 
-        let balanceActual = globalDoc.data().balance + Number(dataDeposito);
-        console.log(balanceActual);
+document.getElementById("submit-deposito").addEventListener('click', (ev) => {
+    let updateBalance = document.getElementById('input-deposito').value;
+    let { balance } = globalDoc.data();
 
-        db.collection('balances').doc(userId).update({
-            balance: balanceActual
-        })
-    }
+    deposit(balance, updateBalance);
 
 })
 
-
-/**datos al DOM de retirar*/
-document.getElementById('retirar-click').addEventListener('click', function input_retiro() {
-
-    
-    console.log('retiraar');
-    toggleSlide("retirar");
-    // document.getElementById('balance').style.display = 'none';
-    // document.getElementById('depositar').style.display = 'none';
-});
-
-//tomar datos del input al hacer click
-
 document.getElementById("submit-retiro").addEventListener('click', function () {
-    let balRetiro = globalDoc.data();
-    let dataRetiro = document.getElementById('input-retiro').value;
-    console.log(balRetiro);
+    let updateBalance = document.getElementById('input-retiro').value;
+    let { balance } = globalDoc.data();
 
-    if (dataRetiro > balRetiro.balance) {
-        console.log(' No posee suficiente Balance para realizar transaccion')
-    } else {
-        if (dataRetiro == "" || dataRetiro == " ") {
-            console.log('Debe introducir un valor por favor');
-        } else {
-            console.log(typeof (dataRetiro));
-            console.log(`el monto de retiro es ${dataRetiro}`);
-            let balanceActual = balRetiro.balance - dataRetiro;
-
-            db.collection('balances').doc(userId).update({
-                balance: balanceActual
-            })
-        }
-    }
+    withDraw(balance, updateBalance);
 
 })
 
@@ -223,9 +225,7 @@ document.getElementById("submit-retiro").addEventListener('click', function () {
 document.querySelector('.atl-form').addEventListener('click', (ev) => {
     ev.preventDefault();
 
-    auth.signOut().then(() => {
-        updateMenu();
-   
-    });
-   window.location.reload();
+    auth.signOut().then(() => updateMenu());
+
+    window.location.reload();
 });
