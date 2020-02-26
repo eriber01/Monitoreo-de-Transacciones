@@ -2,6 +2,7 @@
 const loginForm = document.getElementsByName('form-input');
 const btnSubmit = document.querySelector('#btn-submit');
 let userId;
+let globalDoc = undefined;
 
 
 //verificamos si el usuario se logueo 
@@ -50,17 +51,56 @@ handleErrorAuth = (error) => {
     }
 }
 
+const depositarDinero = (balanceActual) => {
+    db.collection('balances').doc(userId).update({
+        balance: balanceActual
+    })
+}
+
 const showBalance = (bal) => {
     console.log(bal);
     innerBalance = `\n Su balance a la Fecha es: ${bal} pesos \n`;
     document.getElementById('balance').innerHTML = innerBalance;
     document.getElementById('balance').style.padding = '10px';
+    toggleSlide("balance");
+}
 
-    $("#balance").slideToggle();
+function toggleSlide(id){
+    // map selector with id
+    let selector = "#"+id;
+    // class to add when the slide is toggled
+    let className = "openned";
 
-    //Ocultar los demas DIV
-    document.getElementById('retirar').style.display = 'none';
-    document.getElementById('depositar').style.display = 'none';
+    // check if element is open, if true close it, otherwise, open it
+    if($(selector).hasClass(className)){
+
+        $(selector).toggleClass(className);
+        $(selector).slideUp();
+    }else{
+
+        $(selector).slideDown();
+        $(selector).addClass(className);
+    }
+
+    // Get all slide elements
+    let slideList = $(".slide");
+
+
+    // Get other slides
+    let otherSlides = slideList.filter(x => {
+        var actual = slideList[`${x}`];
+        var cond = actual.id !== id; 
+        return cond;
+    });
+
+
+    // Close other slides
+    for(slide in otherSlides){
+        var actualEl = otherSlides[`${slide}`];
+        var elId = '#'+actualEl.id;
+        $(elId).slideUp();
+        $(elId).removeClass(className);
+    }
 }
 
 
@@ -98,85 +138,10 @@ btnSubmit.addEventListener('click', (ev) => {
 
             //esto obtiene el balance individual de cada usuario
             db.collection('balances').doc(userId).onSnapshot((doc) => {
-
+                globalDoc = doc;
                 /*agregar el balance a html*/
-                document.getElementById('ver-blc').addEventListener('click', () => {
-                    showBalance(doc.data().balance);
-                });
                 /*fin agregar balance a html*/
-
-
                 /**datos al DOM de Depositar*/
-
-                document.getElementById('depositar-click').addEventListener('click', function input_deposito() {
-                    console.log('depositar');
-                    $('#depositar').slideToggle();
-                    document.getElementById('balance').style.display = 'none';
-                    document.getElementById('retirar').style.display = 'none';
-                });
-
-
-
-
-                //tomar datos del input al hacer click
-                document.getElementById("submit-deposito").addEventListener('click', function () {
-
-
-                    let dataDeposito = document.getElementById('input-deposito').value;
-
-                    if (dataDeposito == "" || dataDeposito == " ") {
-                        console.log('Debe introducir un valor por favor');
-
-                    } else {
-                        console.log(typeof (dataDeposito));
-                        console.log(`el monto de deposito es ${dataDeposito}`);
-
-                        let balanceActual = doc.data().balance + Number(dataDeposito);
-
-                        db.collection('balances').doc(userId).update({
-                            balance: balanceActual
-                        })
-                    }
-
-                })
-
-
-                /**datos al DOM de retirar*/
-                document.getElementById('retirar-click').addEventListener('click', function input_retiro() {
-
-                    console.log('retiraar');
-                    $('#retirar').slideToggle();
-                    document.getElementById('balance').style.display = 'none';
-                    document.getElementById('depositar').style.display = 'none';
-                });
-
-                //tomar datos del input al hacer click
-
-                document.getElementById("submit-retiro").addEventListener('click', function () {
-
-                    let balRetiro = doc.data();
-                    let dataRetiro = document.getElementById('input-retiro').value;
-                    console.log(balRetiro);
-
-                    if (dataRetiro > balRetiro.balance) {
-                        console.log(' No posee suficiente Balance para realizar transaccion')
-                    } else {
-                        if (dataRetiro == "" || dataRetiro == " ") {
-                            console.log('Debe introducir un valor por favor');
-                        } else {
-                            console.log(typeof (dataRetiro));
-                            console.log(`el monto de retiro es ${dataRetiro}`);
-                            let balanceActual = balRetiro.balance - dataRetiro;
-
-                            db.collection('balances').doc(userId).update({
-                                balance: balanceActual
-                            })
-                        }
-                    }
-
-                })
-
-
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();
@@ -186,7 +151,77 @@ btnSubmit.addEventListener('click', (ev) => {
             .catch((err) => handleErrorAuth(error));
     }
 });
+document.getElementById('ver-blc').addEventListener('click', () => {
+    showBalance(globalDoc.data().balance);
+});
+document.getElementById('depositar-click').addEventListener('click', function input_deposito() {
+    console.log('depositar');
+    toggleSlide("depositar");
+    // document.getElementById('balance').style.display = 'none';
+    // document.getElementById('retirar').style.display = 'none';
+});
 
+
+
+
+//tomar datos del input al hacer click
+document.getElementById("submit-deposito").addEventListener('click', function (ev) {
+    debugger;
+    let dataDeposito = document.getElementById('input-deposito').value;
+
+    if (dataDeposito == "" || dataDeposito == " ") {
+        console.log('Debe introducir un valor por favor');
+
+    } else {
+        // console.log(typeof (dataDeposito));
+        // console.log(`el monto de deposito es ${dataDeposito}`);
+
+        let balanceActual = globalDoc.data().balance + Number(dataDeposito);
+        console.log(balanceActual);
+
+        db.collection('balances').doc(userId).update({
+            balance: balanceActual
+        })
+    }
+
+})
+
+
+/**datos al DOM de retirar*/
+document.getElementById('retirar-click').addEventListener('click', function input_retiro() {
+
+    
+    console.log('retiraar');
+    toggleSlide("retirar");
+    // document.getElementById('balance').style.display = 'none';
+    // document.getElementById('depositar').style.display = 'none';
+});
+
+//tomar datos del input al hacer click
+
+document.getElementById("submit-retiro").addEventListener('click', function () {
+    debugger;
+    let balRetiro = globalDoc.data();
+    let dataRetiro = document.getElementById('input-retiro').value;
+    console.log(balRetiro);
+
+    if (dataRetiro > balRetiro.balance) {
+        console.log(' No posee suficiente Balance para realizar transaccion')
+    } else {
+        if (dataRetiro == "" || dataRetiro == " ") {
+            console.log('Debe introducir un valor por favor');
+        } else {
+            console.log(typeof (dataRetiro));
+            console.log(`el monto de retiro es ${dataRetiro}`);
+            let balanceActual = balRetiro.balance - dataRetiro;
+
+            db.collection('balances').doc(userId).update({
+                balance: balanceActual
+            })
+        }
+    }
+
+})
 
 //logaut
 document.querySelector('.atl-form').addEventListener('click', (ev) => {
