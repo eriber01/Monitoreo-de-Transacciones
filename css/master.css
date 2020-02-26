@@ -101,6 +101,7 @@ hr.midle-line{
     color: white;
     box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.397);
     overflow: hidden;
+    padding-bottom: 30px;
 }
 
 .container-card .card:hover{
