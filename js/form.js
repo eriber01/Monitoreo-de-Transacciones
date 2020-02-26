@@ -162,11 +162,8 @@ document.getElementById('depositar-click').addEventListener('click', function in
 });
 
 
-
-
 //tomar datos del input al hacer click
 document.getElementById("submit-deposito").addEventListener('click', function (ev) {
-    debugger;
     let dataDeposito = document.getElementById('input-deposito').value;
 
     if (dataDeposito == "" || dataDeposito == " ") {
@@ -200,7 +197,6 @@ document.getElementById('retirar-click').addEventListener('click', function inpu
 //tomar datos del input al hacer click
 
 document.getElementById("submit-retiro").addEventListener('click', function () {
-    debugger;
     let balRetiro = globalDoc.data();
     let dataRetiro = document.getElementById('input-retiro').value;
     console.log(balRetiro);
