@@ -41,22 +41,35 @@ const showBalance = (balance) => {
     toggleSlide("balance");
 }
 
-const deposit = (balance, updateBalance) => {
+const deposit = (lastBalance, updateBalance) => {
     if (updateBalance == "" || updateBalance == " ") {
         console.log('Debe introducir un valor por favor');
 
     } else {
 
-        let newBalance = balance + Number(updateBalance);
+        let newBalance = lastBalance + Number(updateBalance);
 
         db.collection('balances').doc(userId).update({
             balance: newBalance
         })
+
+        db.collection('balances').doc(userId).get().then((snapshot) => {
+            let username = snapshot.data().username;
+
+            const newTransaction = {
+                username,
+                lastBalance,
+                newBalance,
+                processType: 'deposit'
+            }
+
+            addTransaction(newTransaction);
+        });
     }
 }
 
-const withDraw = (balance, updateBalance) => {
-    if (updateBalance >= balance) {
+const withDraw = (lastBalance, updateBalance) => {
+    if (updateBalance >= lastBalance) {
         console.log(' No posee suficiente Balance para realizar transaccion')
     } else {
         if (updateBalance == "" || updateBalance == " ") {
@@ -64,13 +77,31 @@ const withDraw = (balance, updateBalance) => {
 
         } else {
 
-            let newBalance = balance - updateBalance;
+            let newBalance = lastBalance - updateBalance;
 
             db.collection('balances').doc(userId).update({
                 balance: newBalance
             })
+
+            db.collection('balances').doc(userId).get().then((snapshot) => {
+                let username = snapshot.data().username;
+
+                const newTransaction = {
+                    username,
+                    lastBalance,
+                    newBalance,
+                    processType: 'withDraw'
+                }
+
+                addTransaction(newTransaction);
+            });
         }
     }
+}
+
+const addTransaction = (payload) => {
+    console.log(payload);
+    db.collection('transactions').add(payload);
 }
 
 const formValidation = (form) => {
@@ -103,11 +134,11 @@ const toggleSlide = (id) => {
     let className = "openned";
 
     // check if element is open, if true close it, otherwise, open it
-    if($(selector).hasClass(className)){
+    if ($(selector).hasClass(className)) {
 
         $(selector).toggleClass(className);
         $(selector).slideUp();
-    }else{
+    } else {
 
         $(selector).slideDown();
         $(selector).addClass(className);
@@ -120,15 +151,15 @@ const toggleSlide = (id) => {
     // Get other slides
     let otherSlides = slideList.filter(x => {
         var actual = slideList[`${x}`];
-        var cond = actual.id !== id; 
+        var cond = actual.id !== id;
         return cond;
     });
 
 
     // Close other slides
-    for(slide in otherSlides){
+    for (slide in otherSlides) {
         var actualEl = otherSlides[`${slide}`];
-        var elId = '#'+actualEl.id;
+        var elId = '#' + actualEl.id;
         $(elId).slideUp();
         $(elId).removeClass(className);
     }
@@ -147,25 +178,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 btnSubmit.addEventListener('click', (ev) => {
     /* ev.preventDefault(); */
-    
-/*    let userAdmin = document.getElementById('correo').value;
- */
+
+    /*    let userAdmin = document.getElementById('correo').value;
+     */
     let user = loginForm[0].value;
     let password = loginForm[1].value;
     let email = `${user}@ab.com`;
-    
+
     if (user === '' && password === '') {
         loginForm[0].classList.add('input-error');
         loginForm[1].classList.add('input-error');
 
 
-    }else if (user == 'admin') {
+    } else if (user == 'admin') {
 
         window.location.href = '../master.html';
 
         console.log('funciona')
     }
-    
+
     else {
 
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
@@ -178,7 +209,7 @@ btnSubmit.addEventListener('click', (ev) => {
             })
         }).then(() => {
             document.querySelector('.cod-form').reset();
-            
+
             updateMenu();
         })
             .catch((err) => handleErrorAuth(error));
@@ -187,10 +218,12 @@ btnSubmit.addEventListener('click', (ev) => {
 
 
 document.getElementById('retirar-click').addEventListener('click', () => {
+    document.getElementById('input-retiro').value = "";
     toggleSlide("retirar");
 });
 
-document.getElementById('depositar-click').addEventListener('click',() => {
+document.getElementById('depositar-click').addEventListener('click', () => {
+    document.getElementById('input-deposito').value = "";
     toggleSlide("depositar");
 });
 
@@ -207,7 +240,6 @@ document.getElementById("submit-deposito").addEventListener('click', (ev) => {
     let { balance } = globalDoc.data();
 
     deposit(balance, updateBalance);
-
 })
 
 document.getElementById("submit-retiro").addEventListener('click', function () {
