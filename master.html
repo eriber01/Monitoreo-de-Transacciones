@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=ABeeZee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/master.css">
 </head>
+
 <body>
     <header>
         <div class="header-center">
@@ -21,54 +23,35 @@
         </nav>
     </header>
 
+    <div id="app">
+        <section class="container">
+            <div class="container-card">
+                <div class="card" v-for="transaction in transactions">
+                    <div class="card-header">
+                        <img src="img/user.png" alt="">
+                        <p>{{transaction.username}}</p>
+                    </div>
+                    <hr class="midle-line">
+                    <span>antiguo monto de la cuenta: {{transaction.lastBalance}}</span>
+                    <hr class="midle-line">
+                    <p>Transaccion Realizada</p>
+                    <p id="transaction-type">area de tipo de trasacion: {{transaction.processType}}</p>
+                    <br>
+                    <p id="masterRetiro" v-if="transaction.processType == 'deposit'">
+                        monto de la trasacion:
+                        {{transaction.newBalance -  transaction.lastBalance}}
+                    </p>
+                    <p id="masterRetiro" v-else>
+                        monto de la trasacion:
+                        {{transaction.lastBalance -  transaction.newBalance}}
+                    </p>
+                    <hr class="midle-line">
+                    <span>nuevo monto de la cuenta: {{transaction.newBalance}}</span>
 
-    <section class="container">
-        <div class="container-card">
-<!--             <div class="card">
-                <div class="card-header">
-                    <img src="img/user.png" alt="">
-                    <p>User Name</p>
                 </div>
-                <hr class="midle-line">
-                <p>Monto actual de la cuanta</p>
-                <span>area del monto de la cuenta</span>
-                <hr class="midle-line">
-                <p>Transacciones Realizadas</p>
-                <span id="masterDeposito">area de deposito</span>
-                <br>
-                <span id="masterRetiro" >Area de retiro</span>
-
             </div>
- -->
-
-            <div class="card">
-                <div class="card-header">
-                    <img src="img/user.png" alt="">
-                    <p>User Name</p>
-                </div>
-                <hr class="midle-line">
-                <span>antiguo monto de la cuenta</span>
-                <hr class="midle-line">
-                <p>Transaccion Realizada</p>
-                <p id="transaction-type">area de tipo de trasacion</p>
-                <br>
-                <p id="masterRetiro" >monto de la trasaacion</p>
-                <hr class="midle-line">                
-                <span>nuevo monto de la cuenta</span>
-
-            </div>
-        </div>
-    </section>
-
-<!-- 
-<div style="height: 100vh;"></div>
-
-
-
- -->
-
-
-
+        </section>
+    </div>
 
     <footer class="footer">
         <div class="contacto colunm">
@@ -80,7 +63,7 @@
             <h3>Nosotros</h3>
             <p>Somos un grupo de desarrolladores que creamos soluciones digitales a las empresas.</p>
         </div>
-        
+
         <div class="miembros colunm">
             <h3>Miembros</h3>
             <span>Erber Tejeda - FrontEnd</span>
@@ -89,5 +72,12 @@
             <span>Josefina Sanchez - Document Design</span>
         </div>
     </footer>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"></script>
+    <script src="js/connnectFirebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="js/admin.js"></script>
 </body>
+
 </html>
