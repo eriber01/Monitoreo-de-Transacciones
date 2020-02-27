@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 btnSubmit.addEventListener('click', (ev) => {
     /* ev.preventDefault(); */
     
-   let userAdmin = document.getElementById('correo').value;
-
+/*    let userAdmin = document.getElementById('correo').value;
+ */
     let user = loginForm[0].value;
     let password = loginForm[1].value;
     let email = `${user}@ab.com`;
@@ -159,12 +159,9 @@ btnSubmit.addEventListener('click', (ev) => {
         loginForm[1].classList.add('input-error');
 
 
-    }else if (userAdmin == 'admin') {
-        
-        const reDireccionar = document.querySelector('#btn-submit');
-        reDireccionar.setAttribute('href', '../master.html');
-        reDireccionar.getAttribute('href');
-        console.log(reDireccionar)
+    }else if (user == 'admin') {
+
+        window.location.href = '../master.html';
 
         console.log('funciona')
     }
