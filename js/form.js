@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 btnSubmit.addEventListener('click', (ev) => {
-    ev.preventDefault();
+    /* ev.preventDefault(); */
     
    let userAdmin = document.getElementById('correo').value;
 

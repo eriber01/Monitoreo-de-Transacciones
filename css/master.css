@@ -60,10 +60,55 @@ nav a:nth-child(3):hover{
 
 /*diseno card inicio*/
 
-.container{
-    width: 250px;
-    text-align: center;
+hr.midle-line{
+    margin: 15px 0px 15px 0px;
+    border: 1px solid #021e26;
 }
+.container{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+.container-card .card-header{
+    background-color: #021e26;
+    border-radius: 7px 100px;
+    height: 70px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.container-card .card-header img{
+    padding-top: 10px;
+    width: 12%;
+}
+
+.container-card{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;  
+}
+
+.container-card .card{
+    margin: 50px 30px 0px 30px;
+    padding: 10px;
+    background-color: #0c7b93;
+    width: 280px;
+    border-radius: 7px 70px 7px 70px ;
+    color: white;
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.397);
+    overflow: hidden;
+}
+
+.container-card .card:hover{
+    transform: scale(1.05);
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.397);
+}
+
+
 
 /*diseno card fin*/
 
@@ -73,6 +118,8 @@ nav a:nth-child(3):hover{
 /*Diseño Footer*/
 
 footer{
+    margin-top: 100px;
+    padding-top: 30px;
     background-color:#021e26;
     color: white;
     height: 200px;
