@@ -1,48 +1,22 @@
-;(function(){
+window.onscroll = function(){
+    if (document.documentElement.scrollTop > 100) {
+        document.querySelector('#scroll-up').classList.add('display-up');
+    }else{
+        document.querySelector('#scroll-up').classList.remove('display-up');
+    }
+}
 
-
-
-
-    let varScroll = false
-
-    console.log($(window).height());
-
-    $(window).scroll(function(){
-        const ScrollDirection = EvaluarScroll()
-
-        if ( window.screen.availHeight > 480 && ScrollDirection && !varScroll) {
-            
-            console.log("abajo")
-            varScroll = true
-            MostrarNavigation()
-        }
-        if (!ScrollDirection && varScroll) {
-            
-            console.log("arriba")
-            varScroll = false
-            OcultarNavigation();
-        }
+document.querySelector('#scroll-up').addEventListener('click', function(){
+    window.scrollTo({
+        top:0,
+        behavior: 'smooth'
     })
+})
 
-    function MostrarNavigation(){
-        $("#navegacion").addClass("nav-top")
-    
-        
-        
-    }
-
-    function OcultarNavigation(){
-        $("#navegacion").removeClass("nav-top")
-     
-    }
-
-    function EvaluarScroll(){
-        const $description = $("#navegacion")
-        const descriptionHeight = $description.height()
-
-        return $(window).scrollTop() > $(window).height() - (descriptionHeight * 11)
-    }
-
-})()
-
-
+document.querySelector('#nosotros').addEventListener('click', function(){
+    console.log('fun')
+    window.scrollTo({
+        top: 9999999999999,
+        behavior: "smooth"
+    })
+})
