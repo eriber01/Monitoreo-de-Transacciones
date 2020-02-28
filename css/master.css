@@ -30,9 +30,16 @@ nav{
     background-color: #0c7b93;
     width: 100%;
     padding: 3px 0px 3px 0px;
-    height: 100%;
 }
 
+.nav-top{
+    transition: all 300ms ease;
+    top: 0;
+    position: fixed;
+    margin: 0;
+    border-bottom: solid black 1px;
+    z-index: 100;
+}
 nav a{
     text-align: center;
     width: 20%;
