@@ -36,6 +36,7 @@
                     <hr class="midle-line">
                     <p>Transaccion Realizada</p>
                     <p id="transaction-type">area de tipo de trasacion: {{transaction.processType}}</p>
+                    <p>{{transaction.createdAt}}</p>
                     <br>
                     <p id="masterRetiro" v-if="transaction.processType == 'deposit'">
                         monto de la trasacion:

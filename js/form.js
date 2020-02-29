@@ -53,14 +53,16 @@ const deposit = (lastBalance, updateBalance) => {
             balance: newBalance
         })
 
+
         db.collection('balances').doc(userId).get().then((snapshot) => {
             let username = snapshot.data().username;
 
             const newTransaction = {
+                processType: 'deposit',
                 username,
                 lastBalance,
                 newBalance,
-                processType: 'deposit'
+
             }
 
             addTransaction(newTransaction);
@@ -101,7 +103,11 @@ const withDraw = (lastBalance, updateBalance) => {
 
 const addTransaction = (payload) => {
     console.log(payload);
-    db.collection('transactions').add(payload);
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+    db.collection('transactions').add({
+        ...payload,
+        createdAt: timestamp()
+    });
 }
 
 const formValidation = (form) => {
