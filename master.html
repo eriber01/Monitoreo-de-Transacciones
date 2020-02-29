@@ -16,12 +16,13 @@
             <img src="img/logo.png" alt="logo banco">
             <h1 class="bank-name">App Banco</h1>
         </div>
-        <nav class="navegacion">
+        <nav id="navegacion">
             <a href="#">Inicio</a>
-            <a href="#">Nosotros</a>
+            <a id="nosotros">Nosotros</a>
             <a class="sing-out" href="index.html">Sign out </a>
         </nav>
     </header>
+
 
     <div id="app">
         <section class="container">
@@ -32,29 +33,36 @@
                         <p>{{transaction.username}}</p>
                     </div>
                     <hr class="midle-line">
-                    <span>antiguo monto de la cuenta: {{transaction.lastBalance}}</span>
+                    <span>Antiguo monto de la Cuenta: <span class="trans-color">{{transaction.lastBalance}}</span>
+                    </span>
                     <hr class="midle-line">
                     <p>Transaccion Realizada</p>
-                    <p id="transaction-type">area de tipo de trasacion: {{transaction.processType}}</p>
-                    <p>{{transaction.createdAt}}</p>
+                    <br>
+                    <p id="transaction-type">Tipo de Trasacion: <br> <span
+                            class="trans-color">{{transaction.processType}}</span></p>
                     <br>
                     <p id="masterRetiro" v-if="transaction.processType == 'deposit'">
-                        monto de la trasacion:
-                        {{transaction.newBalance -  transaction.lastBalance}}
+                        Monto de la Trasacion:
+                        <span class="trans-color">{{transaction.newBalance -  transaction.lastBalance}}</span>
                     </p>
                     <p id="masterRetiro" v-else>
-                        monto de la trasacion:
-                        {{transaction.lastBalance -  transaction.newBalance}}
+                        Monto de la Trasacion:
+                        <span class="trans-color">{{transaction.lastBalance -  transaction.newBalance}}</span>
                     </p>
                     <hr class="midle-line">
-                    <span>nuevo monto de la cuenta: {{transaction.newBalance}}</span>
+                    <p>Nuevo Monto de la Cuenta: <span class="trans-color">{{transaction.newBalance}}</span></p>
 
                 </div>
             </div>
         </section>
     </div>
 
-    <footer class="footer">
+
+    <div class="button-up no-display-up" id="scroll-up">
+        <img src="img/button-up.png" style="width: 55px;" alt="">
+    </div>
+
+    <footer id="nosotros" class="footer">
         <div class="contacto colunm">
             <h3>Telefono:</h3>
             <span>809-133-1234</span>
@@ -79,6 +87,8 @@
     <script src="js/connnectFirebase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/master.js"></script>
 </body>
 
 </html>

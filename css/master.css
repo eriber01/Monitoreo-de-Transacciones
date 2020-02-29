@@ -30,9 +30,16 @@ nav{
     background-color: #0c7b93;
     width: 100%;
     padding: 3px 0px 3px 0px;
-    height: 100%;
 }
 
+/* .nav-top{
+    transition: all 300ms ease;
+    top: 0;
+    position: fixed;
+    margin: 0;
+    border-bottom: solid black 1px;
+    z-index: 100;
+} */
 nav a{
     text-align: center;
     width: 20%;
@@ -41,6 +48,7 @@ nav a{
     text-decoration: none;
     color: white;
     transition: all 300ms ease;
+    cursor: pointer;
 }
 
 nav a:hover{
@@ -53,7 +61,7 @@ nav a:hover{
 nav a:nth-child(3):hover{
     background-color: #021e26;
    
-    color: wheat;
+    color: white;
     border-radius: 5px;
 }
 /*Diseño Header FIN*/
@@ -109,6 +117,13 @@ hr.midle-line{
     box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.397);
 }
 
+
+.trans-color{
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+
+}
 
 
 /*diseno card fin*/
@@ -172,4 +187,46 @@ footer .colunm span{
     
 }
 /*Diseño Footer FIN*/
+
+/*Diseño button up inicio*/
+
+.button-up{
+    position: fixed;
+    bottom: 3%;
+    left: 95%;
+    background-color: rgb(12, 123, 147);
+    border-radius: 100% 100% 10% 100%;
+    cursor: pointer;
+    
+}
+
+.button-up:hover{
+    transform: scale(1.09);
+    background-color: #021e26;
+}
+
+
+
+.no-display-up{
+    display: none;
+}
+
+.display-up{
+    display: block;
+}
+
+@media only screen and (max-width: 1100px) {
+    .button-up{
+        left: 90%;
+    }
+}
+
+
+@media only screen and (max-width: 724px) {
+    .button-up{
+        left: 80%;
+    }
+}
+
+/*Diseño button up fin*/
 
