@@ -4,12 +4,13 @@ const vm = new Vue({
         transactions: []
     },
     mounted() {
-        db.collection('transactions').orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
-            let changes = querySnapshot.docChanges();
+        db.collection('transactions').orderBy("createdAt").onSnapshot((snapshot) => {
+
+            let changes = snapshot.docChanges();
             console.log(changes);
             changes.forEach(change => {
                 if (change.type == "added") {
-                    this.transactions.push(change.doc.data())
+                    this.transactions.unshift(change.doc.data())
                 }
             });
         })
