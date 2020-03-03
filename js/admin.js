@@ -13,6 +13,7 @@ const vm = new Vue({
                     this.transactions.unshift(change.doc.data())
                 }
             });
+            
         })
     }
 });

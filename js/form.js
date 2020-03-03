@@ -9,7 +9,6 @@ let userId = undefined;
 let globalDoc = undefined;
 
 
-
 /*
 * Alert Funtion
 */
@@ -208,10 +207,9 @@ btnSubmit.addEventListener('click', (ev) => {
         loginForm[1].classList.add('input-error');
 
 
-    } else if (user == 'admin') {
+    } else if (user === 'admin' && password === 'user123') {
 
         window.location.href = '../master.html';
-
         console.log('funciona')
     }
 
@@ -219,7 +217,8 @@ btnSubmit.addEventListener('click', (ev) => {
 
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
             //este es el id del usuario
-            userId = cred.user.uid;
+            
+             userId = cred.user.uid;
 
             //esto obtiene el balance
             db.collection('balances').doc(userId).onSnapshot((doc) => {
@@ -231,6 +230,7 @@ btnSubmit.addEventListener('click', (ev) => {
             updateMenu();
         })
             .catch((err) => handleErrorAuth(error));
+            
     }
 });
 
