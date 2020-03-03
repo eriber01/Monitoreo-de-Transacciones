@@ -9,6 +9,16 @@ let userId = undefined;
 let globalDoc = undefined;
 
 
+
+/*
+* Alert Funtion
+*/
+
+function Alert(){
+    swal("La transaccion se realizo de manera exitosa");
+}
+
+
 //verify if user log in
 const verifyAuth = () => {
     auth.onAuthStateChanged(user => {
@@ -67,6 +77,7 @@ const deposit = (lastBalance, updateBalance) => {
 
             addTransaction(newTransaction);
         });
+        Alert()
     }
 }
 
@@ -97,6 +108,7 @@ const withDraw = (lastBalance, updateBalance) => {
 
                 addTransaction(newTransaction);
             });
+            Alert();
         }
     }
 }
@@ -224,12 +236,10 @@ btnSubmit.addEventListener('click', (ev) => {
 
 
 document.getElementById('retirar-click').addEventListener('click', () => {
-    document.getElementById('input-retiro').value = "";
     toggleSlide("retirar");
 });
 
 document.getElementById('depositar-click').addEventListener('click', () => {
-    document.getElementById('input-deposito').value = "";
     toggleSlide("depositar");
 });
 
@@ -243,9 +253,11 @@ document.getElementById('ver-blc').addEventListener('click', () => {
 
 document.getElementById("submit-deposito").addEventListener('click', (ev) => {
     let updateBalance = document.getElementById('input-deposito').value;
+    /* swal('el') */
     let { balance } = globalDoc.data();
 
     deposit(balance, updateBalance);
+    document.getElementById('input-deposito').value = "";
 })
 
 document.getElementById("submit-retiro").addEventListener('click', function () {
@@ -253,7 +265,7 @@ document.getElementById("submit-retiro").addEventListener('click', function () {
     let { balance } = globalDoc.data();
 
     withDraw(balance, updateBalance);
-
+    document.getElementById('input-retiro').value = "";
 })
 
 //logaut
