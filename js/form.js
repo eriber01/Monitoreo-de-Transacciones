@@ -56,7 +56,7 @@ const showBalance = (balance) => {
 
 const deposit = (lastBalance, updateBalance) => {
     if (updateBalance == "" || updateBalance == " ") {
-        console.log('Debe introducir un valor por favor');
+        showAlert('Debe introducir un valor por favor');
 
     } else {
 
@@ -86,10 +86,10 @@ const deposit = (lastBalance, updateBalance) => {
 
 const withDraw = (lastBalance, updateBalance) => {
     if (updateBalance >= lastBalance) {
-        console.log(' No posee suficiente Balance para realizar transaccion')
+        showAlert(' No posee suficiente Balance para realizar transaccion')
     } else {
         if (updateBalance == "" || updateBalance == " ") {
-            console.log('Debe introducir un valor por favor');
+            showAlert('Debe introducir un valor por favor');
 
         } else {
 

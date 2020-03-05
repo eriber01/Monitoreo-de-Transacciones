@@ -58,16 +58,16 @@
                 <a href="#" class="option" id="ver-blc"> Ver Balance </a>
                 <div class="slide" id="balance"></div>
 
-                <a href="#" id="depositar-click" class="option">Depositar</a>
+                <a href="#" id="depositar-click" class="option">Pagar</a>
                 <div class="slide" id="depositar">
-                    <input class="form-deposito-retiro" id="input-deposito" type="text"
+                    <input class="form-deposito-retiro" id="input-deposito" min="1" type="number"
                         placeholder="Ingrese la cantidad a Depsitar">
                     <input id="submit-deposito" type="submit" value="Depositar">
                 </div>
 
                 <a href="#" id="retirar-click" class="option">Retirar</a>
                 <div class="slide" id="retirar">
-                    <input class="form-deposito-retiro" id="input-retiro" type="text"
+                    <input class="form-deposito-retiro" id="input-retiro" min="1" type="number"
                         placeholder="Ingrese la cantidad a Retirar">
                     <input id="submit-retiro" type="submit" value="Retirar">
                 </div>
@@ -85,7 +85,7 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/connnectFirebase.js"></script>
     <script src="js/form.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
 
