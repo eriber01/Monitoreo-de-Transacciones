@@ -13,8 +13,8 @@ let globalDoc = undefined;
 * Alert Funtion
 */
 
-function Alert(){
-    swal("La transaccion se realizo de manera exitosa");
+const showAlert = (message) => {
+    swal(message);
 }
 
 
@@ -32,10 +32,14 @@ const verifyAuth = () => {
 //handle error auth firebase
 handleErrorAuth = (error) => {
     if (error.code == "auth/user-not-found") {
+        showAlert("El usuario no fue encontrado");
+
         loginForm[0].classList.add('input-error');
         loginForm[1].classList.add('input-error');
 
     } else if (error.code == "auth/wrong-password") {
+        showAlert("La contraseña es incorrecta");
+
         loginForm[0].classList.remove('input-error');
         loginForm[1].classList.add('input-error');
     }
@@ -76,7 +80,7 @@ const deposit = (lastBalance, updateBalance) => {
 
             addTransaction(newTransaction);
         });
-        Alert()
+        showAlert("La transaccion se realizo de manera exitosa");
     }
 }
 
@@ -107,7 +111,7 @@ const withDraw = (lastBalance, updateBalance) => {
 
                 addTransaction(newTransaction);
             });
-            Alert();
+            showAlert("La transaccion se realizo de manera exitosa");
         }
     }
 }
@@ -217,8 +221,8 @@ btnSubmit.addEventListener('click', (ev) => {
 
         auth.signInWithEmailAndPassword(email, password).then((cred) => {
             //este es el id del usuario
-            
-             userId = cred.user.uid;
+
+            userId = cred.user.uid;
 
             //esto obtiene el balance
             db.collection('balances').doc(userId).onSnapshot((doc) => {
@@ -229,8 +233,8 @@ btnSubmit.addEventListener('click', (ev) => {
 
             updateMenu();
         })
-            .catch((err) => handleErrorAuth(error));
-            
+            .catch((error) => handleErrorAuth(error));
+
     }
 });
 
