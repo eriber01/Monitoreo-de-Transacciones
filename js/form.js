@@ -17,6 +17,9 @@ const showAlert = (message) => {
     swal(message);
 }
 
+const AlertSuccess = ()=>{
+    swal("Listo!", "La transaccion se Realizo con Exito!", "success");
+}
 
 //verify if user log in
 const verifyAuth = () => {
@@ -257,11 +260,13 @@ document.getElementById('ver-blc').addEventListener('click', () => {
 
 document.getElementById("submit-deposito").addEventListener('click', (ev) => {
     let updateBalance = document.getElementById('input-deposito').value;
-    /* swal('el') */
+
     let { balance } = globalDoc.data();
 
     deposit(balance, updateBalance);
     document.getElementById('input-deposito').value = "";
+
+    AlertSuccess()
 })
 
 document.getElementById("submit-retiro").addEventListener('click', function () {
@@ -270,13 +275,34 @@ document.getElementById("submit-retiro").addEventListener('click', function () {
 
     withDraw(balance, updateBalance);
     document.getElementById('input-retiro').value = "";
+
+    AlertSuccess()
 })
 
 //logaut
 document.querySelector('.atl-form').addEventListener('click', (ev) => {
     ev.preventDefault();
 
-    auth.signOut().then(() => updateMenu());
-
-    window.location.reload();
+    swal({
+        title: "Seguro que deseas Salir?",
+        text: "Si sales de la sesion tendras que loguearte una vez mas!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            swal("LIsto! Has salido del sistema!", {
+            icon: "success",
+        })
+            setTimeout(function(){
+                auth.signOut().then(() => updateMenu());
+                window.location.reload();
+            }, 2000)
+        ;
+        } else {
+            swal("Ah cancelado la salida del sistema!");
+        }
+    });
+    
 });
